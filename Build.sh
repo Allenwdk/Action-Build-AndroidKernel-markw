@@ -15,8 +15,7 @@ sudo chmod -R 777 ./*
 # Env
 export ARCH=arm64
 export SUBARCH=arm64
-export PATH=~/.gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin:$PATH
-export CROSS_COMPILE=aarch64-none-linux-gnu-
+export CROSS_COMPILE=/.gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin/binaarch64-none-linux-gnu-
 
 # CMP
 git config --global user.name "Mochen"
