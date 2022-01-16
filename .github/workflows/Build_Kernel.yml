@@ -1,0 +1,15 @@
+name: Build_Kernel
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - name: Build With Shell
+        run: |
+          sudo chmod -R 777 ./*
+          bash Build.sh
