@@ -1,4 +1,4 @@
-cd ~
+cd $GITHUB_WORKSPACE
 
 # Env
 sudo apt update && sudo apt -y dist-upgrade

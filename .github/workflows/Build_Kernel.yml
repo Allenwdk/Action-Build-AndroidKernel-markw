@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-18.04
     
     steps:
+      - name: Get the source code of this repositorie...
+        uses: actions/checkout@main
+
       - name: Build With Shell
         run: |
+          cd $GITHUB_WORKSPACE
           sudo chmod -R 777 ./*
           bash Build.sh
