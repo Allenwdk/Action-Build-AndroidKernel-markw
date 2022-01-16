@@ -26,6 +26,4 @@ sudo chmod -R 777 ./*
 cd Nosgoth
 make clean
 make mrproper
-args="-j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-"
-make ${args} O=out markw_defconfig
-make ${args} CONFIG_DEBUG_SECTION_MISMATCH=y
+make O=out markw_defconfig
