@@ -1,0 +1,15 @@
+name: SSH-ubuntu-16.04
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+
+    steps:
+      - name: Get the source code of this repositorie...
+        uses: actions/checkout@main
+
+      - name: SSH connect
+        uses: csexton/debugger-action@master
