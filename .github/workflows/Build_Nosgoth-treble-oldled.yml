@@ -1,0 +1,60 @@
+name: Action_Build_Nosgoth-Q
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - name: Get the source code of this repositorie...
+        uses: actions/checkout@main
+
+      - name: Get variable configuration...
+        run: |
+          echo "BUILD_TIME=$(date +%s | md5sum | awk '{print substr($1,1,10)}')" >> $GITHUB_ENV
+
+      - name: Configuration Environment
+        run: |
+          sudo apt update && sudo apt -y dist-upgrade
+          sudo apt install -y gcc g++ python make texinfo texlive bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev unzip language-pack-zh-hans
+          git config --global user.name "Mochen"
+          git config --global user.email "mochen20070702@gmail.com"
+
+      - name: Clone device kernel
+        run: |
+          cd $GITHUB_WORKSPACE
+          git clone --depth=1 https://github.com/SonicBSV/android_kernel_xiaomi_markw.git -b Nosgoth-treble-oldled
+
+      - name: Download gcc && Building kernel
+        run: |
+          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw
+          BuildTime=$(date +%Y_%m_%d)
+          echo -e "--------------------开始下载 GCC--------------------\n"
+          aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
+          xz -d gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
+          tar xf gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar
+          rm gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar
+          echo -e "--------------------开始Build--------------------\n"
+          export ARCH=arm64
+          export SUBARCH=arm64
+          export CROSS_COMPILE=${PWD}/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+          make clean
+          make mrproper
+          make O=out markw_defconfig
+          make -j$(nproc) O=out 2>&1 | tee $BuildTime-BuildKernel.log
+
+      - name: Upload to Release...
+        run: |
+          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw/
+          curl -sL https://git.io/file-transfer | sh
+          mkdir Upload
+          sudo chmod -R 777 ./*
+          mv $BuildTime-BuildKernel.log ./Upload
+          mv ./out/arch/arm64/boot/Image.gz-dtb ./Upload
+          echo -e "\n----------File md5sum----------"
+          md5sum ./Upload/* > ./Upload/md5sum.txt
+          echo -e "\n"
+          ./transfer wet ./Upload/*
