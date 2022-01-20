@@ -30,7 +30,7 @@ jobs:
 
       - name: Download gcc && Building kernel
         run: |
-          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw
+          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_msm8953
           BuildTime=$(date +%Y_%m_%d)
           echo -e "--------------------开始下载 GCC--------------------\n"
           aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
@@ -48,7 +48,7 @@ jobs:
 
       - name: Upload to Release...
         run: |
-          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw/
+          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_msm8953/
           curl -sL https://git.io/file-transfer | sh
           mkdir Upload
           sudo chmod -R 777 ./*
