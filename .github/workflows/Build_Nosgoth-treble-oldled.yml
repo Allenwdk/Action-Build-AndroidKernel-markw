@@ -26,7 +26,7 @@ jobs:
       - name: Clone device kernel
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth=1 https://github.com/SonicBSV/android_kernel_xiaomi_markw.git -b Nosgoth-treble-oldled
+          git clone --depth=1 https://github.com/Allenwdk/android_kernel_xiaomi_markw.git -b Q-Non-treble
 
       - name: Download gcc && Building kernel
         run: |
