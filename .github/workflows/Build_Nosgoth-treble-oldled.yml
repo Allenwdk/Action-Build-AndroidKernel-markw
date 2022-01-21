@@ -45,16 +45,9 @@ jobs:
           make mrproper
           make O=out markw_defconfig
           make -j$(nproc) O=out 2>&1 | tee $BuildTime-BuildKernel.log
-
-      - name: Upload to Release...
+          
+      - name: Upload to WeTransfer
         run: |
-          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw/
-          curl -sL https://git.io/file-transfer | sh
-          mkdir Upload
-          sudo chmod -R 777 ./*
-          mv $BuildTime-BuildKernel.log ./Upload
-          mv ./out/arch/arm64/boot/Image.gz-dtb ./Upload
-          echo -e "\n----------File md5sum----------"
-          md5sum ./Upload/* > ./Upload/md5sum.txt
-          echo -e "\n"
-          ./transfer wet ./Upload/*
+              cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw/
+              curl -sL https://git.io/file-transfer | sh
+              ./transfer wet ./out/arch/arm64/boot/Image.gz-dtb
