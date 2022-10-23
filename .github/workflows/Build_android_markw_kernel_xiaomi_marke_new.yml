@@ -33,14 +33,14 @@ jobs:
           cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw_new
           BuildTime=$(date +%Y_%m_%d)
           echo -e "--------------------开始下载 GCC--------------------\n"
-          aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
-          xz -d gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
-          tar xf gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar
-          rm gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar
+          aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz?rev=1cb9c51b94f54940bdcccd791451cec3&hash=A56CA491FA630C98F7162BC1A302F869"
+          xz -d gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
+          tar xf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar
+          rm gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar
           echo -e "--------------------开始Build--------------------\n"
           export ARCH=arm64
           export SUBARCH=arm64
-          export CROSS_COMPILE=${PWD}/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+          export CROSS_COMPILE=${PWD}/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
           make clean
           make mrproper
           make O=out markw_defconfig
