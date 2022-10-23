@@ -45,7 +45,8 @@ jobs:
           make clean
           make mrproper
           make O=out markw_defconfig
-          make -j$(nproc) O=out 2>&1 | tee $BuildTime-BuildKernel.log
+          make ARCH=arm64 CROSS_COMPILE=$(CROSS_COMPILE_721) -C $(PF_LINUX_SRC) M=$(PWD) modules -j10
+
           
       - name: Upload to WeTransfer
         run: |
