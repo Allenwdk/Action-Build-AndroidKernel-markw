@@ -34,18 +34,24 @@ jobs:
           BuildTime=$(date +%Y_%m_%d)
           echo -e "--------------------开始下载 GCC--------------------\n"
           aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz?rev=1cb9c51b94f54940bdcccd791451cec3&hash=A56CA491FA630C98F7162BC1A302F869"
+          aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=302e8e98351048d18b6f5b45d472f406&hash=95ED9EEB24EAEEA5C1B11BBA864519B2"
           xz -d gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
+          xz -d gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
           tar xf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar
+          tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar
           rm gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar
+          rm gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar
           echo -e "--------------------开始Build--------------------\n"
           export ARCH=arm64
           export SUBARCH=arm64
           export CROSS_COMPILE=${PWD}/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+          export CROSS_COMPILE=${PWD}/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin/aarch64-none-linux-guneabinhf-
           export CROSS_COMPILE_ARM32=${PWD}/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+          export CROSS_COMPILE_ARM32=${PWD}/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin/aarch64-none-linux-guneabinhf-
           make clean
           make mrproper
           make O=out markw_defconfig
-          make ARCH=arm64 CROSS_COMPILE=$(CROSS_COMPILE_721) -C $(PF_LINUX_SRC) M=$(PWD) modules -j10
+          make -j$(nproc) O=out 2>&1 | tee $BuildTime-BuildKernel.log
 
           
       - name: Upload to WeTransfer
