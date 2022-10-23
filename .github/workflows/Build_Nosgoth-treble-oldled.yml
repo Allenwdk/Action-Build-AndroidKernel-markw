@@ -26,11 +26,11 @@ jobs:
       - name: Clone device kernel
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth=1 https://github.com/Allenwdk/android_kernel_xiaomi_markw.git -b Nosgoth-treble-oldled
+          git clone --depth=1 https://github.com/Allenwdk/android_kernel_xiaomi_markw_new.git -b T
 
       - name: Download gcc && Building kernel
         run: |
-          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw
+          cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw_new
           BuildTime=$(date +%Y_%m_%d)
           echo -e "--------------------开始下载 GCC--------------------\n"
           aria2c "https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
@@ -48,6 +48,6 @@ jobs:
           
       - name: Upload to WeTransfer
         run: |
-              cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw/
+              cd $GITHUB_WORKSPACE/android_kernel_xiaomi_markw_new/
               curl -sL https://git.io/file-transfer | sh
               ./transfer wet ./out/arch/arm64/boot/Image.gz-dtb
