@@ -32,8 +32,8 @@ jobs:
           export SUBARCH=arm64
           export PATH=~/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin:$PATH
           export CROSS_COMPILE=aarch64-none-linux-gnu-
-          git clone https://github.com/Allenwdk/android_kernel_xiaomi_msm8953.git -b Q-Non-treble
-          cd android_kernel_xiaomi_msm8953
+          git clone https://github.com/Allenwdk/android_kernel_xiaomi_markw_new.git -b T
+          cd android_kernel_xiaomi_markw_new
           make clean
           make mrproper
           args="-j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-"
